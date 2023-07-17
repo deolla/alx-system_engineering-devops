@@ -6,7 +6,7 @@ Scripting
  Project will start Jul 10, 2023 6:00 AM, must end by Jul 24, 2023 6:00 AM
  Manual QA review must be done (request it when you are done with the project)
 
-/c/Users/USER/Downloads/06AChAO.png
+put /c/Users/USER/Downloads/06AChAO.png
 
 Background Context
 CMD CHALLENGE is a pretty cool game challenging you on Bash skills. Everything is done via the command line and the questions are becoming increasingly complicated. It’s a good training to improve your command line skills!
