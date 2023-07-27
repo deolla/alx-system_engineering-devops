@@ -5,9 +5,7 @@
 # Where only the part of the name after the first dash is displayed.
 # Uses for loop.
 
-for file in *; do
-	if [[ ! "$file" =~ ^\. && "$file" == *-* ]]; then
-		name_part="${file#*-}"
-		echo "$name_part"
-	fi
+content=$(ls)
+for file in $content; do
+	echo "$file" | cut -d '-' -f2
 done
