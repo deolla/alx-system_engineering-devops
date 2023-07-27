@@ -5,9 +5,12 @@
 # Where only the part of the name after the first dash is displayed.
 # Uses for loop.
 
-for f in *; do
-	if [[ ! "$f" =~ ^\. && "$f" == *-* ]]; then
-		p=$(echo "$f" | cut -d '-' -f 2-)
-		echo "$p"
+for file in *; do
+	# Check if the file is not hidden and has a dash in its name
+	if [[ ! "$file" =~ ^\. && "$file" == *-* ]]; then
+		# Extract the part of the name after the first dash
+		name_part=$(echo "$file" | cut -d '-' -f 2-)
+		# Display the extracted name part in list format
+		echo "$name_part"
 	fi
 done
