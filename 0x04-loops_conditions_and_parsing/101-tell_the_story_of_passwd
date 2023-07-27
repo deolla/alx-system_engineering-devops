@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # This is a script that  displays the content of the file /etc/passwd.
 
-while IFS=":" read -r username password uid groupid uinfo home shell; do
+IFS=":"
+
+while read -r username password uid groupid uinfo home shell; do
   echo "The user $username is part of the $groupid gang,"\
   "lives in $home and rides $shell."\
   "$uid's place is protected by the passcode $password,"\
