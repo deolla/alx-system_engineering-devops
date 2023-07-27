@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This script displays:
+# The content of the current directory.
+# In a list format
+# Where only the part of the name after the first dash is displayed.
+# Uses for loop.
+
+for f in *; do
+	if [[ ! "$f" =~ ^\. && "$f" == *-* ]]; then
+		p=$(echo "$f" | cut -d '-' -f 2-)
+		echo "$p"
+	fi
+done
