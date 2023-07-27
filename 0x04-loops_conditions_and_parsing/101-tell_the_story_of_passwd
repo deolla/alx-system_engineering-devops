@@ -2,10 +2,9 @@
 # This is displays the content of the file /etc/passwd,
 # using the while loop + IFS.
 
-while IFS=: read -r username password userid groupid user_info homedir shell; do
-	user_id_info=$(getent passwd "$username")
+while IFS=: read -r username _ userid _ homedir _ shell; do
+	userid=$(echo "$userid" | tr -dc '0-9')
+	groupid=$(echo "$homedir" | tr -dc '0-9')
 
-	echo "The user $username is part of the group $groupid gang, lives in $homedir and rides $shell."
-	echo "$userid's place is protected by the passcode $password, more info about the user here: $user_id_info"
-	echo
+	echo "The user $username is part of the $groupid gang, lives in $homedir and rides $shell. $userid's place is protected by the passcode x, more info about the user here: $username"
 done < /etc/passwd
