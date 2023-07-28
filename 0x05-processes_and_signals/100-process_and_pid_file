@@ -7,16 +7,21 @@
 # SIGTERM signal.
 
 pid_file="/var/run/myscript.pid"
+m="I hate the kill command"
+n="Y U no love me?!"
+o="To infinity and beyond"
+
+quit_handler() {
+	rm "$pid_file"
+	exit 0
+}
+
 echo $$ > "$pid_file"
 
-trap 'echo "I hate the kill command"; exit' SIGTERM
-
-trap "echo Y U no love me?!" SIGINT
-
-rm "$pid_file"
-
-
 while true; do
-	echo "To infinity and beyond"
+	echo "$o"
 	sleep 2
+	trap 'echo "$n"' SIGINT
+	trap 'echo "$m" && quit_handler' SIGTERM
+	trap 'quit_handler' SIGQUIT
 done
