@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This is a script that displays its PID.
+
+i=$$
+
+echo "$i"
