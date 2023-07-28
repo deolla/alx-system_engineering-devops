@@ -5,7 +5,7 @@
 
 /**
  * infinite_while - An infinite while loop function.
- * 
+ *
  * Return: Always (0) SUCCESS.
  */
 int infinite_while(void)
@@ -22,7 +22,7 @@ int infinite_while(void)
  *
  * Return: no return (void).
  */
-void zombies()
+void zombies(void)
 {
 	pid_t pop;
 
@@ -36,14 +36,14 @@ void zombies()
 
 /**
  * main - Start of function.
- * 
+ *
  * Return: Always (0) Success.
  */
-int main()
+int main(void)
 {
 	int m;
 
-	for (m=0; m < 5; m++)
+	for (m = 0; m < 5; m++)
 	{
 		zombies();
 	}
