@@ -3,9 +3,30 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+/**
+ * infinite_while - An infinite while loop function.
+ * 
+ * Return: Always (0) SUCCESS.
+ */
+int infinite_while(void)
+{
+	while (1)
+	{
+		sleep(1);
+	}
+	return (0);
+}
+
+/**
+ * zombies - Create a zombie process.
+ *
+ * Return: no return (void).
+ */
 void zombies()
 {
-	pid_t pop = fork();
+	pid_t pop;
+
+	pop = fork();
 	if (pop == 0)
 	{
 		printf("Zombie process created, PID: %d\n", getpid());
@@ -13,6 +34,11 @@ void zombies()
 	}
 }
 
+/**
+ * main - Start of function.
+ * 
+ * Return: Always (0) Success.
+ */
 int main()
 {
 	int m;
@@ -21,10 +47,7 @@ int main()
 	{
 		zombies();
 	}
+	infinite_while();
 
-	while (1)
-	{
-		sleep(1);
-	}
 	return (0);
 }
