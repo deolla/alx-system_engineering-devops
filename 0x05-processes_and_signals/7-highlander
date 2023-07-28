@@ -10,5 +10,6 @@ l="I am invincible!!!"
 while true; do
 	echo "$m"
 	sleep 2
-	trap "echo $l" SIGTERM
+	echo "$l"
+	trap SIGTERM
 done
