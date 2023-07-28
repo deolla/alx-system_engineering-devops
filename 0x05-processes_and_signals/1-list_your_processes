@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # This is a script that displays a list of current running processes.
 
-ps -eo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,cmd --forest
+ps -auxf
