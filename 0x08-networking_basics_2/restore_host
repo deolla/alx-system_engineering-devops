@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Restore the original /etc/hosts file from the backup
+cp -f /etc/hosts.backup /etc/hosts

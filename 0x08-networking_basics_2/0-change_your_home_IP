@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This is a script that configures Ubuntu server with the below requiremennt.
+
+
+localhost_ip="127.0.0.2"
+facebook_ip="8.8.8.8"
+
+cp /etc/hosts /etc/hosts.backup
+
+echo -e "$localhost_ip\tlocalhost" > /etc/hosts.backup
+echo -e "$facebook_ip\tfacebook.com" >> /etc/hosts.backup
+
+cp -f /etc/hosts.backup /etc/hosts
