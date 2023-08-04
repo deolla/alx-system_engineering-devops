@@ -3,8 +3,7 @@
 
 # Check if there is an argument.
 if [ $# -eq 0 ]; then
-	echo "Usages: $0 {IP_ADDRESS}"
+	echo "Usages: 5-is_the_host_on_the_network {IP_ADDRESS}"
 else
-	ip_address="$1"
-	ping -c 5 "$ip_address"
+	ping -c 5 "$1"
 fi
