@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Update package repositories
+sudo apt-get -y update
+
+# Install HAProxy
+sudo apt-get -y install haproxy
+
+# Edit the HAProxy configuration file
+server_config=\
+"
+frontend deol-frontend
+    bind *:80
+    mode http
+    default_backend deol-backend
+
+backend deol-backend
+    balance roundrobin
+    server 281411-web-01 54.146.88.8 check
+    server 281411-web-02 54.146.88.136:80 check
+"
+
+echo "$server_config" | sudo tee /etc/haproxy/haproxy.cfg
+
+# Enable HAProxy to be managed via an init script
+echo "ENABLED=1" | sudo tee /etc/default/haproxy
+
+# Restart HAProxy service
+sudo service haproxy restart
