@@ -1,11 +1,29 @@
 #!/usr/bin/env bash
-# Configure your Nginx server to have a custom 404 page,
-# contains the string Ceci n'est pas une page.
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo sh -c 'echo "Hello World!" > /var/www/html/index.nginx-debian.html'
-sudo sed -i '/^}$/i \ \n\tlocation \/redirect_me {return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;}' /etc/nginx/sites-available/default
-sudo sed -i '/^}$/i \ \n\tlocation @404 {return 404 "Ceci n'\''est pas une page\\n";}' /etc/nginx/sites-available/default
-sudo sed -i 's/=404/@404/g' /etc/nginx/sites-available/default
+# 404-error_page
+
+# Updating and installation
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Creating an index.html page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# "moved permanently redirection"
+pop="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/deolla permanent;"
+
+sudo sed -i "s/server_name_;/$pop/" /etc/nginx/sites-enabled/default
+
+# 404 Custom error
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+pop="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+
+sudo sed -i "s/listen 80 default_server;/$pop/" /etc/nginx/sites-enabled/default
+
+# Creating an HTTP header
 sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
-sudo service nginx start
+
+# Testing syntax errors
+sudo nginx -t
+
+# Restart nginx
+sudo service nginx restart
