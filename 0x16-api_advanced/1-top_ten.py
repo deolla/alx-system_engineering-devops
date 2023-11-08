@@ -4,19 +4,14 @@ import requests
 
 
 def top_ten(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/hot/.json"
-
-    try:
-        response = requests.get(url, allow_redirects=False)
-        response.raise_for_status()
-    except requests.exceptions.RequestException:
-        print(None)
+    """Print the titles of the 10 hottest posts on subreddit."""
+    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+    h = {'User-Agent': 'linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)'}
+    params = {'limit': 10}
+    response = requests.get(url, headers=h, params=params,
+                            allow_redirects=False)
+    if response.status_code == 404:
+        print('None')
         return
-
-    data = response.json()
-
-    if "data" not in data:
-        print(None)
-        return
-    for post in data["data"]["children"][:10]:
-        print(post["data"]["title"])
+    results = response.json().get('data')
+    [print(c.get('data').get('title')) for c in results.get('children')]
