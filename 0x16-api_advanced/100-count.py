@@ -11,15 +11,19 @@ def count_words(subreddit, word_list, after="", count=[]):
         for word in word_list:
             if word.lower() not in word_dict:
                 word_dict[word.lower()] = 0
-    
-    if after == "":
-        count = [0] * len(word_list)
+
+    if after is None:
+        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
+        for word in wordict:
+            if word[1]:
+                print('{}: {}'.format(word[0], word[1]))
+        return None
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     request = requests.get(url,
                            params={'after': after},
                            allow_redirects=False,
-                           headers={'user-agent': 'bhalut'})
+                           headers={'user-agent': 'seyi'})
 
     if request.status_code == 200:
         data = request.json()
