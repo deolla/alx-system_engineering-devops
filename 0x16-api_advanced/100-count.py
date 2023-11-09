@@ -1,44 +1,41 @@
 #!/usr/bin/python3
-"""queries the Reddit API recursively."""
+"""Write a function that queries the Reddit API."""
+
 import requests
 
 
-def count_words(subreddit, word_list, after='', word_dict={}):
-    """Queries the Reddit API parses the title of
-    all hot article"""
-
-    if not word_dict:
-        for word in word_list:
-            if word.lower() not in word_dict:
-                word_dict[word.lower()] = 0
-
-    if after is None:
-        sorted_word = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word, count in sorted_word:
-            if count > 0:
-                print('{}: {}'.format(word, count))
-        return
-
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    header = {'user-agent': 'redquery'}
-    parameters = {'limit': 100, 'after': after}
-    response = requests.get(url, headers=header, params=parameters,
-                            allow_redirects=False)
-
-    if response.status_code != 200:
+def count_words(subreddit, word_list, hot_list=[], after=None):
+    """Write a function that queries the
+    Reddit API and prints the titles of the first 10."""
+    my_list = hot_list
+    params = {"limit": "100"}
+    if after:
+        params["after"] = after
+    response = requests.get(
+        "https://www.reddit.com/r/{}/hot.json".format(subreddit),
+        headers={
+            "User-Agent": "subscribercheck",
+        },
+        params=params,
+        allow_redirects=False,
+    )
+    if response.status_code is not 200:
         return None
+    resp = response.json()["data"]["children"]
+    if resp:
+        for i in resp:
+            my_list.append(i["data"]["title"])
 
-    try:
-        hot = response.json()['data']['children']
-        aft = response.json()['data']['after']
-        for post in hot:
-            title = post['data']['title']
-            lower = [word.lower() for word in title.split(' ')]
-
-            for word in word_dict.keys():
-                word_dict[word] += lower.count(word)
-
-    except Exception:
-        return
-
-    count_words(subreddit, word_list, aft, word_dict)
+        afterd = response.json()["data"]["after"]
+        if afterd is None:
+            wrd = {val: 0 for val in word_list}
+            for item in my_list:
+                new_str = item.lower().split()
+                for key in new_str:
+                    if key in wrd:
+                        wrd[key] += 1
+            srd = sorted(wrd.items(), key=lambda item: (-item[1], item[0]))
+            [print("{}: {}".format(key, val)) for key, val in srd if val]
+            return my_list
+        else:
+            return count_words(subreddit, word_list, my_list, afterd)
