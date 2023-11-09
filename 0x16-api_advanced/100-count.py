@@ -3,12 +3,11 @@
 import requests
 
 
-def count_words(subreddit, word_list, counter={}, after="", count=0):
+def count_words(subreddit, word_list, instances={}, after="", count=0):
     """Prints counts of words found in hot posts of given subreddit."""
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
     h = {'User-Agent': 'linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)'}
     params = {'after': after, 'count': count, 'limit': 100}
-
     response = requests.get(url, headers=h, params=params,
                             allow_redirects=False)
     try:
@@ -22,21 +21,21 @@ def count_words(subreddit, word_list, counter={}, after="", count=0):
     results = results.get("data")
     after = results.get("after")
     count += results.get("dist")
-    for m in results.get("children"):
-        title = m.get("data").get("title").lower().split()
-        for l in word_list:
-            if l.lower() in title:
-                times = len([t for t in title if t == l.lower()])
-                if counter.get(l) is None:
-                    counter[l] = times
+    for c in results.get("children"):
+        title = c.get("data").get("title").lower().split()
+        for word in word_list:
+            if word.lower() in title:
+                times = len([t for t in title if t == word.lower()])
+                if instances.get(word) is None:
+                    instances[word] = times
                 else:
-                    counter[l] += times
+                    instances[word] += times
 
     if after is None:
-        if len(counter) == 0:
+        if len(instances) == 0:
             print("")
             return
-        counter = sorted(counter.items(), key=lambda kv: (-kv[1], kv[0]))
-        [print("{}: {}".format(k, v)) for k, v in counter]
+        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
+        [print("{}: {}".format(k, v)) for k, v in instances]
     else:
-        count_words(subreddit, word_list, counter, after, count)
+        count_words(subreddit, word_list, instances, after, count)
