@@ -7,7 +7,11 @@ import requests
 
 def count_words(subreddit, word_list, after="", count=[]):
     """count all words"""
-
+    if not word_dict:
+        for word in word_list:
+            if word.lower() not in word_dict:
+                word_dict[word.lower()] = 0
+    
     if after == "":
         count = [0] * len(word_list)
 
