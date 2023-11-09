@@ -33,7 +33,7 @@ def count_words(subreddit, word_list, after='', word_dict={}):
         aft = response.json()['data']['after']
         for post in hot:
             title = post['data']['title']
-            words = re.findall(r'\b\w+\b', title.lower())
+            lower = [word.lower() for word in title.split(' ')]
 
             for word in word_dict.keys():
                 word_dict[word] += lower.count(word)
