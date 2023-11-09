@@ -13,11 +13,11 @@ def count_words(subreddit, word_list, after='', word_dict={}):
                 word_dict[word.lower()] = 0
 
     if after is None:
-        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word in wordict:
-            if word[1]:
-                print('{}: {}'.format(word[0], word[1]))
-        return None
+        sorted_word = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
+        for word, count in sorted_word:
+            if count > 0:
+                print('{}: {}'.format(word, count))
+        return
 
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
     header = {'user-agent': 'redquery'}
@@ -33,12 +33,12 @@ def count_words(subreddit, word_list, after='', word_dict={}):
         aft = response.json()['data']['after']
         for post in hot:
             title = post['data']['title']
-            lower = [word.lower() for word in title.split(' ')]
+            words = re.findall(r'\b\w+\b', title.lower())
 
             for word in word_dict.keys():
                 word_dict[word] += lower.count(word)
 
     except Exception:
-        return None
+        return
 
     count_words(subreddit, word_list, aft, word_dict)
