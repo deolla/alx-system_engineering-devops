@@ -52,7 +52,7 @@ Duration: October 5, 2023, 14:00 - 18:30 (GMT)
 Impact: Intermittent service disruptions in the user authentication system, affecting 20% of users attempting to log in.
 Root Cause: Undetected circular dependency between microservices, leading to cascading failures in the authentication flow.
 
-[[Mystery in the Microservice]](images/9a96772e-cbca-4e56-a55c-51fdf4a3a9ba?thumb=)
+[[Mystery in the Microservice]](images/'9a96772e-cbca-4e56-a55c-51fdf4a3a9ba?thumb=')
 
 Timeline
 ========
