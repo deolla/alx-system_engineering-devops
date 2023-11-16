@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
-# Bash script to reload Gunicorn in a graceful way.
+# Bash script to reload Gunicorn
 
-pkill -HUP -f gunicorn
+pids=$(pgrep gunicorn)
+
+if [ -z "$pids" ]; then
+    echo "No Gunicorn processes found. Make sure Gunicorn is running."
+else
+    echo "Reloading Gunicorn..."
+    echo "$pids" | xargs -I {} kill -HUP {}
+    echo "Reload complete."
+fi
