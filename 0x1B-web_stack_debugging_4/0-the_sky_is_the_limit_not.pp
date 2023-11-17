@@ -1,12 +1,11 @@
 # Resolve huge amount or request
 
-exec { 'replace':
-  provider  => shell,
-  command  => 'sudo sed -i "s/ULIMIT=\"-n 15\"/ULIMIT=\"-n 4096\"/" /etc/default/nginx',
-  before   => Exec['restart'],
-}
+exec { 'resolve-request':
+  command => "sed -i 's/15/4096\' /etc/default/nginx",
+  path    => '/usr/local/bin/:/bin/'
+}->
 
-exec {'restart':
-  provider => shell,
-  command  => 'sudo service nginx restart',
+exec {'restart-nginx':
+  command => 'sudo service nginx restart',
+  path    => '/etc/init.d/'
 }
