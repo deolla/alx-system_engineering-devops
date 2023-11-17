@@ -1,4 +1,4 @@
-# This manuscript increases the amount of traffic an Nginx server can handle
+# Resolve traffic in Nginx server 
 
 file { 'resolve-request':
   ensure  => 'file',
@@ -8,6 +8,6 @@ file { 'resolve-request':
 
 # Start/Restart Nginx
 -> exec { 'nginx-restart':
-  command => 'sudo nginx restart',
+  command => 'nginx restart',
   path    => '/etc/init.d/',
 }
