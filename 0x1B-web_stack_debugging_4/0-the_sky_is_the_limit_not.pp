@@ -1,11 +1,14 @@
-# Resolve huge amount or request
+# This manuscript increases the amount of traffic an Nginx server can handle
 
-exec { 'resolve-request':
-  command => "sed -i 's/15/4096\' /etc/default/nginx",
-  path    => '/usr/local/bin/:/bin/'
-}->
+# Increase the ULIMIT of the default file
+file { 'fix-for-nginx':
+  ensure  => 'file',
+  path    => '/etc/default/nginx',
+  content => inline_template('<%= File.read("/etc/default/nginx").gsub(/15/, "4096") %>'),
+}
 
-exec {'restart-nginx':
-  command => 'sudo service nginx restart',
-  path    => '/etc/init.d/'
+# Restart Nginx
+-> exec { 'nginx-restart':
+  command => 'nginx restart',
+  path    => '/etc/init.d/',
 }
