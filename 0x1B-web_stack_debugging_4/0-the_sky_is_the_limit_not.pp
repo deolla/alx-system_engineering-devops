@@ -8,6 +8,6 @@ file { 'resolve-request':
 
 # Start/Restart Nginx
 -> exec { 'nginx-restart':
-  command => 'sudo service nginx restart',
+  command => 'sudo nginx restart',
   path    => '/etc/init.d/',
 }
